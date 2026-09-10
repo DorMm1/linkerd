@@ -1,0 +1,66 @@
+{{- /*
+For every declared port:
+  1. a Server that denies everything by default,
+  2. if anyone is allowed in, a MeshTLSAuthentication listing exactly who,
+  3. an AuthorizationPolicy tying the two together.
+*/ -}}
+{{- $model := include "linkerd-policies.model" . | fromJson }}
+{{- range $key, $target := $model.targets }}
+---
+# {{ $key }}
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: {{ $target.name }}
+  namespace: {{ $target.namespace }}
+  labels:
+    {{- include "linkerd-policies.labels" $ | nindent 4 }}
+    linkerd-policies/team: {{ $target.team }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- toYaml $target.podLabels | nindent 6 }}
+  port: {{ int $target.port }}
+  proxyProtocol: {{ $target.protocol | quote }}
+  accessPolicy: deny
+{{- if or $target.allowSameNamespace $target.clients }}
+---
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: {{ $target.name }}
+  namespace: {{ $target.namespace }}
+  labels:
+    {{- include "linkerd-policies.labels" $ | nindent 4 }}
+    linkerd-policies/team: {{ $target.team }}
+spec:
+  identityRefs:
+    {{- if $target.allowSameNamespace }}
+    - kind: Namespace
+      name: {{ $target.namespace }}
+    {{- end }}
+    {{- range $client := $target.clients }}
+    - kind: ServiceAccount
+      name: {{ $client.serviceAccount }}
+      namespace: {{ $client.namespace }}
+    {{- end }}
+---
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: {{ $target.name }}
+  namespace: {{ $target.namespace }}
+  labels:
+    {{- include "linkerd-policies.labels" $ | nindent 4 }}
+    linkerd-policies/team: {{ $target.team }}
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: {{ $target.name }}
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: {{ $target.name }}
+{{- end }}
+{{- end }}

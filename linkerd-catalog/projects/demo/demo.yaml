@@ -1,0 +1,23 @@
+# Project "demo", namespace "demo".
+#
+# Who can talk to what in this namespace. Nothing is allowed unless written here.
+# Field reference: ../../README.md
+
+namespaces:
+  demo:
+    team: demo
+    allowSameNamespace: true       # workloads in "demo" may call each other freely
+
+    workloads:
+      demo-ui:
+        ports:
+          http: 3000
+
+      demo-api:
+        ports:
+          http: 8080
+          grpc: { port: 9090, protocol: gRPC }
+        publish: [http]            # other namespaces may ask for demo/demo-api/http
+        connectsTo:
+          - rabbitmq/rabbitmq/amqp
+          - project-a/orders-api/http

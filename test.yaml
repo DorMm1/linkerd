@@ -1,0 +1,904 @@
+﻿---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: demo-api-http
+  namespace: demo-preview-123
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: demo-api-http
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: demo-api-http
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: demo-ui-http
+  namespace: demo-preview-123
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: demo-ui-http
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: demo-ui-http
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: demo-api-grpc
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: demo-api-grpc
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: demo-api-grpc
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: demo-api-http
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: demo-api-http
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: demo-api-http
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: demo-ui-http
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: demo-ui-http
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: demo-ui-http
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: imply-broker-http
+  namespace: imply
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: imply-broker-http
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: imply-broker-http
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: kafka-clients
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: kafka-clients
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: kafka-clients
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: kafka-controller
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: kafka-controller
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: kafka-controller
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: mongodb-mongodb
+  namespace: mongodb
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: mongodb-mongodb
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: mongodb-mongodb
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: orders-api-http
+  namespace: project-a
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: project-a
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: orders-api-http
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: orders-api-http
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: orders-api-metrics
+  namespace: project-a
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: project-a
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: orders-api-metrics
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: orders-api-metrics
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: rabbitmq-amqp
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: rabbitmq-amqp
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: rabbitmq-amqp
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: rabbitmq-clustering
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: rabbitmq-clustering
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: rabbitmq-clustering
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: rabbitmq-epmd
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: rabbitmq-epmd
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: rabbitmq-epmd
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: rabbitmq-management
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: Server
+    name: rabbitmq-management
+  requiredAuthenticationRefs:
+    - group: policy.linkerd.io
+      kind: MeshTLSAuthentication
+      name: rabbitmq-management
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: demo-api-http
+  namespace: demo-preview-123
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: demo-preview-123
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: demo-ui-http
+  namespace: demo-preview-123
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: demo-preview-123
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: demo-api-grpc
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: demo
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: demo-api-http
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: demo
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: demo-ui-http
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: demo
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: imply-broker-http
+  namespace: imply
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: imply
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: kafka-clients
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: kafka
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: kafka-controller
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: kafka
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: mongodb-mongodb
+  namespace: mongodb
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: mongodb
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: orders-api-http
+  namespace: project-a
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: project-a
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: project-a
+    - kind: ServiceAccount
+      name: demo-api
+      namespace: demo
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: orders-api-metrics
+  namespace: project-a
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: project-a
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: project-a
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: rabbitmq-amqp
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: rabbitmq
+    - kind: ServiceAccount
+      name: demo-api
+      namespace: demo
+    - kind: ServiceAccount
+      name: demo-api
+      namespace: demo-preview-123
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: rabbitmq-clustering
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: rabbitmq
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: rabbitmq-epmd
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: rabbitmq
+---
+# Source: linkerd-policies/templates/policies.yaml
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: rabbitmq-management
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  identityRefs:
+    - kind: Namespace
+      name: rabbitmq
+---
+# Source: linkerd-policies/templates/policies.yaml
+# demo-preview-123/demo-api/http
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: demo-api-http
+  namespace: demo-preview-123
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: demo-api
+  port: 8080
+  proxyProtocol: "unknown"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# demo-preview-123/demo-ui/http
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: demo-ui-http
+  namespace: demo-preview-123
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: demo-ui
+  port: 3000
+  proxyProtocol: "unknown"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# demo/demo-api/grpc
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: demo-api-grpc
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: demo-api
+  port: 9090
+  proxyProtocol: "gRPC"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# demo/demo-api/http
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: demo-api-http
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: demo-api
+  port: 8080
+  proxyProtocol: "unknown"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# demo/demo-ui/http
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: demo-ui-http
+  namespace: demo
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: demo
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: demo-ui
+  port: 3000
+  proxyProtocol: "unknown"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# imply/imply-broker/http
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: imply-broker-http
+  namespace: imply
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: imply-broker
+  port: 8082
+  proxyProtocol: "HTTP/1"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# kafka/kafka/clients
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: kafka-clients
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
+  port: 9092
+  proxyProtocol: "opaque"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# kafka/kafka/controller
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: kafka-controller
+  namespace: kafka
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: kafka
+  port: 9093
+  proxyProtocol: "opaque"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# linux-mssql/mssql/sql
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: mssql-sql
+  namespace: linux-mssql
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app: mssql
+  port: 1433
+  proxyProtocol: "opaque"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# mongodb/mongodb/mongodb
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: mongodb-mongodb
+  namespace: mongodb
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: mongodb
+  port: 27017
+  proxyProtocol: "opaque"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# project-a/orders-api/http
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: orders-api-http
+  namespace: project-a
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: project-a
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: orders-api
+  port: 8080
+  proxyProtocol: "unknown"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# project-a/orders-api/metrics
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: orders-api-metrics
+  namespace: project-a
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: project-a
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: orders-api
+  port: 9090
+  proxyProtocol: "unknown"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# rabbitmq/rabbitmq/amqp
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: rabbitmq-amqp
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: rabbitmq
+  port: 5672
+  proxyProtocol: "opaque"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# rabbitmq/rabbitmq/clustering
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: rabbitmq-clustering
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: rabbitmq
+  port: 25672
+  proxyProtocol: "opaque"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# rabbitmq/rabbitmq/epmd
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: rabbitmq-epmd
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: rabbitmq
+  port: 4369
+  proxyProtocol: "opaque"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# rabbitmq/rabbitmq/management
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: rabbitmq-management
+  namespace: rabbitmq
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: rabbitmq
+  port: 15672
+  proxyProtocol: "HTTP/1"
+  accessPolicy: deny
+---
+# Source: linkerd-policies/templates/policies.yaml
+# redis/redis/redis
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: redis-redis
+  namespace: redis
+  labels:
+    app.kubernetes.io/name: linkerd-policies
+    app.kubernetes.io/instance: linkerd-policies
+    app.kubernetes.io/managed-by: Helm
+    linkerd-policies/team: platform
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: redis
+  port: 6379
+  proxyProtocol: "opaque"
+  accessPolicy: deny

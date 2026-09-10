@@ -1,0 +1,8 @@
+﻿{
+  "yaml.schemas": {
+    "./linkerd-policies/values.schema.json": [
+      "linkerd-catalog/platform.yaml",
+      "linkerd-catalog/projects/*/*.yaml"
+    ]
+  }
+}

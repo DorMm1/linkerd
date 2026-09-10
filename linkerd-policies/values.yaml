@@ -1,7 +1,24 @@
-# Platform-owned inventory and delegation boundaries.
-platform:
-  destinations: {}
-  projects: {}
+# The Argo CD Application feeds every catalog file (platform.yaml and
+# projects/<project>/<namespace>.yaml) into this chart as Helm values. Helm merges
+# them into one `namespaces` map; the chart renders one policy set per port.
+#
+# Defaults render nothing.
+namespaces: {}
 
-# Project-owned grants; remove a grant to revoke access.
-projects: {}
+# Shape of one entry (full reference: README.md):
+#
+# namespaces:
+#   demo:                              # the Kubernetes namespace
+#     team: demo                       # who owns it (label on every generated resource)
+#     allowSameNamespace: true         # workloads in "demo" may call each other
+#     workloads:
+#       demo-api:                      # Deployment/StatefulSet name
+#         ports:
+#           http: 8080
+#           grpc: { port: 9090, protocol: gRPC }
+#         publish: [http]              # other namespaces may request demo/demo-api/http
+#         connectsTo:
+#           - rabbitmq/rabbitmq/amqp
+#         serviceAccount: demo-api     # optional, defaults to the workload name
+#         podLabels:                   # optional, defaults to app.kubernetes.io/name: <workload>
+#           app.kubernetes.io/name: demo-api

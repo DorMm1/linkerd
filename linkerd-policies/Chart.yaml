@@ -1,6 +1,6 @@
 apiVersion: v2
 name: linkerd-policies
-description: Deny-by-default Linkerd Servers with explicit project ServiceAccount grants
+description: Deny-by-default Linkerd access policies generated from simple per-namespace YAML files
 type: application
-version: 0.1.0
-appVersion: edge26.9.1
+version: 1.0.0
+appVersion: edge-26.9.1

@@ -1,0 +1,69 @@
+# Shared infrastructure, owned by DevOps.
+#
+# One namespace per 3rd-party app. Application teams never edit this file; they
+# request access from their own project file with, for example:
+#
+#   connectsTo: [rabbitmq/rabbitmq/amqp]
+#
+# Only the ports listed under `publish` can be requested. Everything else is
+# internal to the app's own namespace (allowSameNamespace lets cluster members,
+# replicas and sidecars talk to each other).
+
+namespaces:
+
+  rabbitmq:
+    team: platform
+    allowSameNamespace: true
+    workloads:
+      rabbitmq:
+        ports:
+          amqp: { port: 5672, protocol: opaque }
+          management: { port: 15672, protocol: HTTP/1 }
+          clustering: { port: 25672, protocol: opaque }
+          epmd: { port: 4369, protocol: opaque }
+        publish: [amqp]                    # management, clustering, epmd stay internal
+
+  kafka:
+    team: platform
+    allowSameNamespace: true
+    workloads:
+      kafka:
+        ports:
+          clients: { port: 9092, protocol: opaque }
+          controller: { port: 9093, protocol: opaque }
+        publish: [clients]
+
+  redis:
+    team: platform
+    workloads:
+      redis:
+        ports:
+          redis: { port: 6379, protocol: opaque }
+        publish: [redis]
+
+  linux-mssql:
+    team: platform
+    workloads:
+      mssql:
+        podLabels: { app: mssql }          # this chart labels its pods "app: mssql"
+        ports:
+          sql: { port: 1433, protocol: opaque }
+        publish: [sql]
+
+  mongodb:
+    team: platform
+    allowSameNamespace: true               # replica set members talk to each other
+    workloads:
+      mongodb:
+        ports:
+          mongodb: { port: 27017, protocol: opaque }
+        publish: [mongodb]
+
+  imply:
+    team: platform
+    allowSameNamespace: true               # Druid components talk to each other
+    workloads:
+      imply-broker:
+        ports:
+          http: { port: 8082, protocol: HTTP/1 }
+        publish: [http]

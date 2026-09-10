@@ -1,0 +1,20 @@
+# Project "demo", namespace "demo-preview-123": a short-lived preview environment.
+#
+# A preview namespace is a separate namespace: nothing from "demo" carries over.
+# Delete this file when the namespace goes away and its policies disappear too.
+
+namespaces:
+  demo-preview-123:
+    team: demo
+    allowSameNamespace: true
+
+    workloads:
+      demo-ui:
+        ports:
+          http: 3000
+
+      demo-api:
+        ports:
+          http: 8080
+        connectsTo:
+          - rabbitmq/rabbitmq/amqp

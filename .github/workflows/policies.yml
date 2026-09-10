@@ -1,0 +1,27 @@
+name: Policies
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+      - uses: azure/setup-helm@v4.3.0
+        with:
+          version: v3.17.2
+      - run: pip install -r requirements.txt
+      - run: helm lint linkerd-policies --strict
+      - run: python -m pytest
+      - name: Policies rendered from the example catalog
+        run: python render_catalog.py

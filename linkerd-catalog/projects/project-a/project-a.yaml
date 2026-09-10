@@ -1,0 +1,13 @@
+# Project "project-a", namespace "project-a".
+
+namespaces:
+  project-a:
+    team: project-a
+    allowSameNamespace: true
+
+    workloads:
+      orders-api:
+        ports:
+          http: 8080
+          metrics: 9090            # not published: only reachable from inside project-a
+        publish: [http]

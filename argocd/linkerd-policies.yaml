@@ -1,0 +1,42 @@
+# Argo CD keeps the cluster's Linkerd policies equal to the catalog in Git.
+#
+# Two sources:
+#   1. this repository      -> the linkerd-policies Helm chart
+#   2. the catalog          -> platform.yaml + projects/<project>/<namespace>.yaml,
+#                              each passed to the chart as a values file
+#
+# Until the catalog has its own on-prem repository, source 2 points at the example
+# folder linkerd-catalog/ in this repository. To move it: change repoURL/targetRevision
+# of source 2 and drop the "linkerd-catalog/" prefix from the two valueFiles.
+#
+# Needs Argo CD 3.4 or newer (glob patterns in valueFiles). Apply once:
+#   kubectl apply -f .\argocd\linkerd-policies.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: linkerd-policies
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io   # deleting the Application removes the policies
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/DorMm1/linkerd.git
+      targetRevision: main
+      path: linkerd-policies
+      helm:
+        valueFiles:
+          - $catalog/linkerd-catalog/platform.yaml
+          - $catalog/linkerd-catalog/projects/*/*.yaml   # a new project file is picked up automatically
+    - repoURL: https://github.com/DorMm1/linkerd.git
+      targetRevision: main
+      ref: catalog
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: linkerd                       # every rendered resource carries its own namespace
+  syncPolicy:
+    automated:
+      prune: true                            # a removed line in Git removes the policy
+      selfHeal: true                         # manual edits in the cluster are reverted
+    syncOptions:
+      - ServerSideApply=true
