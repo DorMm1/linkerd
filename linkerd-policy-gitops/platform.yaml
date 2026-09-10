@@ -1,0 +1,26 @@
+platform:
+  projects:
+    demo:
+      namespaces: [rabbitmq]
+      destinations: [rabbitmq-amqp, rabbitmq-management]
+    project-a:
+      namespaces: [project-a]
+      destinations: [rabbitmq-amqp]
+    project-b:
+      namespaces: [project-b]
+      destinations: [rabbitmq-amqp]
+  destinations:
+    rabbitmq-amqp:
+      namespace: rabbitmq
+      port: 5672
+      protocol: opaque
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: rabbitmq
+    rabbitmq-management:
+      namespace: rabbitmq
+      port: 15672
+      protocol: HTTP/1
+      podSelector:
+        matchLabels:
+          app.kubernetes.io/name: rabbitmq

@@ -1,0 +1,23 @@
+{{- range $projectName, $project := .Values.projects }}
+{{- range $destinationName, $grant := $project.grants }}
+{{- $destination := index $.Values.platform.destinations $destinationName }}
+---
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: {{ include "linkerd-policies.grantName" (dict "project" $projectName "destination" $destinationName) | quote }}
+  namespace: {{ $destination.namespace | quote }}
+  labels:
+    {{- include "linkerd-policies.labels" $ | nindent 4 }}
+    linkerd-policy.gitops/project: {{ $projectName | quote }}
+  annotations:
+    linkerd-policy.gitops/owner: {{ $projectName | quote }}
+spec:
+  identityRefs:
+    {{- range $account := $grant.serviceAccounts }}
+    - kind: ServiceAccount
+      name: {{ $account.name | quote }}
+      namespace: {{ $account.namespace | quote }}
+    {{- end }}
+{{- end }}
+{{- end }}

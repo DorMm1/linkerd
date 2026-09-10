@@ -1,0 +1,23 @@
+{{- range $name, $destination := .Values.platform.destinations }}
+---
+apiVersion: policy.linkerd.io/v1beta3
+kind: Server
+metadata:
+  name: {{ $name | quote }}
+  namespace: {{ $destination.namespace | quote }}
+  labels:
+    {{- include "linkerd-policies.labels" $ | nindent 4 }}
+  annotations:
+    helm.sh/resource-policy: keep
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
+    linkerd-policy.gitops/owner: platform
+spec:
+  accessPolicy: deny
+  port: {{ $destination.port }}
+  proxyProtocol: {{ $destination.protocol | default "unknown" | quote }}
+  podSelector:
+    matchLabels:
+      {{- range $key, $value := $destination.podSelector.matchLabels }}
+      {{ $key | quote }}: {{ $value | quote }}
+      {{- end }}
+{{- end }}

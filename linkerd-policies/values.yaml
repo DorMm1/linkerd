@@ -1,0 +1,7 @@
+# Platform-owned inventory and delegation boundaries.
+platform:
+  destinations: {}
+  projects: {}
+
+# Project-owned grants; remove a grant to revoke access.
+projects: {}
