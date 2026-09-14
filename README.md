@@ -181,4 +181,8 @@ python render_catalog.py | Out-File .\test.yaml -Encoding utf8   # refresh the c
 ```
 
 [CI](.github/workflows/policies.yml) runs the same on every push and pull
-request. A broken catalog file fails the render with the field to fix.
+request; [azure-pipelines.yml](azure-pipelines.yml) is the Azure DevOps
+equivalent — add it as a **build validation** branch policy on `main` so a PR
+can only be merged when the tests pass, and it publishes the policies the PR
+adds or removes as the `policy-diff` artifact. A broken catalog file fails the
+render with the field to fix.

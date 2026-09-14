@@ -1,0 +1,73 @@
+# Azure DevOps pipeline for this repository (chart + example catalog together).
+#
+# Add it as a build validation policy on main (Repos > Branches > main > Branch
+# policies > Build validation, Required) so a pull request can only be merged
+# when the chart lints, all tests pass and the catalog renders. On PRs it also
+# prints and publishes the policies the change adds or removes.
+#
+# Azure Repos validates PRs through that policy, not through a `pr:` trigger.
+# Self-hosted agents: `pool: { name: <your pool> }`, Linux, with git and python3.
+
+trigger:
+  branches:
+    include: [main]
+
+pr: none
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - checkout: self
+    fetchDepth: 0                    # the policy diff needs the target branch
+
+  - task: UsePythonVersion@0
+    displayName: Python 3.13
+    inputs:
+      versionSpec: '3.13'
+
+  - task: HelmInstaller@1
+    displayName: Helm 3.17.2
+    inputs:
+      helmVersionToInstall: 3.17.2
+
+  - script: python -m pip install --quiet -r requirements.txt
+    displayName: Install test dependencies
+
+  - script: helm lint linkerd-policies --strict
+    displayName: Lint the chart
+
+  - script: python -m pytest --junitxml=$(Pipeline.Workspace)/test-results.xml
+    displayName: Chart, validation and catalog tests   # the merge gate
+
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    condition: always()
+    inputs:
+      testResultsFormat: JUnit
+      testResultsFiles: $(Pipeline.Workspace)/test-results.xml
+      testRunTitle: linkerd
+
+  - bash: |
+      set -eu
+      python render_catalog.py > "$PIPELINE_WORKSPACE/head.yaml"
+      git fetch --quiet origin "$SYSTEM_PULLREQUEST_TARGETBRANCH"
+      git worktree add --quiet ../base FETCH_HEAD
+      if ! (cd ../base && python render_catalog.py > "$PIPELINE_WORKSPACE/base.yaml"); then
+        echo "# target branch does not render" > "$PIPELINE_WORKSPACE/base.yaml"
+      fi
+      echo "##[section]Policies this pull request adds (+) or removes (-)"
+      if diff -u "$PIPELINE_WORKSPACE/base.yaml" "$PIPELINE_WORKSPACE/head.yaml" > "$PIPELINE_WORKSPACE/policy-diff.txt"; then
+        echo "No policy changes." | tee "$PIPELINE_WORKSPACE/policy-diff.txt"
+      else
+        cat "$PIPELINE_WORKSPACE/policy-diff.txt"
+      fi
+    displayName: Policies this PR adds or removes
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  - task: PublishPipelineArtifact@1
+    displayName: Publish policy diff
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+    inputs:
+      targetPath: $(Pipeline.Workspace)/policy-diff.txt
+      artifact: policy-diff
