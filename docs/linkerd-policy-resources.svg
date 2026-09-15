@@ -1,0 +1,242 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1600" height="1560" viewBox="0 0 1600 1560" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="16">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#57606a"/>
+    </marker>
+    <marker id="arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#cf222e"/>
+    </marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="9" markerHeight="9" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1a7f37"/>
+    </marker>
+    <style>
+      .code { font-family: Consolas, "Courier New", monospace; font-size: 14px; fill: #24292f; white-space: pre; }
+      .h1 { font-size: 28px; font-weight: 600; fill: #24292f; }
+      .h2 { font-size: 20px; font-weight: 600; fill: #24292f; }
+      .card-title { font-size: 17px; font-weight: 700; }
+      .tag { font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+      .note { font-size: 14px; fill: #57606a; }
+      .line { stroke: #57606a; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .line-red { stroke: #cf222e; stroke-width: 2; fill: none; marker-end: url(#arrow-red); }
+      .line-green { stroke: #1a7f37; stroke-width: 2.5; fill: none; marker-end: url(#arrow-green); }
+      .blue { fill: #0969da; } .green { fill: #1a7f37; } .orange { fill: #bc4c00; }
+      .diamond { fill: #fff8c5; stroke: #9a6700; stroke-width: 2; }
+      .reject { fill: #ffebe9; stroke: #cf222e; stroke-width: 2; }
+      .allow { fill: #dafbe1; stroke: #1a7f37; stroke-width: 2.5; }
+    </style>
+  </defs>
+
+  <rect width="1600" height="1560" fill="#ffffff"/>
+
+  <!-- ================= Header ================= -->
+  <text x="40" y="52" class="h1">Linkerd access policies: the three resources behind one catalog line</text>
+  <text x="40" y="80" class="note" font-size="16">Server = WHAT is protected · MeshTLSAuthentication = WHO may come in · AuthorizationPolicy = the LINK between the two. Example: demo-api → RabbitMQ AMQP.</text>
+
+  <!-- ================= Panel 1: catalog -> resources ================= -->
+  <rect x="24" y="104" width="1552" height="470" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="44" y="136" class="h2">1. From the catalog to Kubernetes resources</text>
+
+  <!-- platform.yaml card -->
+  <rect x="44" y="156" width="480" height="212" rx="8" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+  <text x="60" y="181" class="code" font-weight="700" fill="#57606a"># platform.yaml  (owned by DevOps)</text>
+  <text x="60" y="203" class="code">namespaces:</text>
+  <text x="60" y="223" class="code">  rabbitmq:</text>
+  <text x="60" y="243" class="code">    team: platform</text>
+  <text x="60" y="263" class="code">    allowSameNamespace: true</text>
+  <circle cx="330" cy="258" r="6" fill="#1a7f37"/>
+  <text x="60" y="283" class="code">    workloads:</text>
+  <text x="60" y="303" class="code">      rabbitmq:</text>
+  <circle cx="195" cy="298" r="6" fill="#0969da"/>
+  <text x="60" y="323" class="code">        ports:</text>
+  <text x="60" y="343" class="code">          amqp: { port: 5672, protocol: opaque }</text>
+  <circle cx="445" cy="338" r="6" fill="#0969da"/>
+  <text x="60" y="363" class="code">        publish: [amqp]</text>
+  <circle cx="260" cy="358" r="6" fill="#1a7f37"/>
+
+  <!-- demo.yaml card -->
+  <rect x="44" y="384" width="480" height="170" rx="8" fill="#ffffff" stroke="#8c959f" stroke-width="1.5"/>
+  <text x="60" y="409" class="code" font-weight="700" fill="#57606a"># projects/demo/demo.yaml  (owned by team demo)</text>
+  <text x="60" y="431" class="code">namespaces:</text>
+  <text x="60" y="451" class="code">  demo:</text>
+  <text x="60" y="471" class="code">    workloads:</text>
+  <text x="60" y="491" class="code">      demo-api:</text>
+  <circle cx="195" cy="486" r="6" fill="#1a7f37"/>
+  <text x="60" y="511" class="code">        connectsTo: [rabbitmq/rabbitmq/amqp]</text>
+  <circle cx="420" cy="506" r="6" fill="#1a7f37"/>
+  <text x="60" y="538" class="note">identity of the caller = ServiceAccount demo-api in namespace demo</text>
+
+  <!-- helm box -->
+  <path class="line" d="M 524 262 L 585 340"/>
+  <path class="line" d="M 524 470 L 585 380"/>
+  <rect x="590" y="330" width="130" height="60" rx="30" fill="#24292f"/>
+  <text x="655" y="355" text-anchor="middle" fill="#ffffff" font-weight="600" font-size="15">helm template</text>
+  <text x="655" y="375" text-anchor="middle" fill="#c9d1d9" font-size="13">run by Argo CD</text>
+  <path class="line" d="M 720 345 L 770 218"/>
+  <path class="line" d="M 720 360 L 770 360"/>
+  <path class="line" d="M 720 375 L 770 490"/>
+
+  <!-- Server card -->
+  <rect x="774" y="156" width="782" height="118" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="2"/>
+  <text x="790" y="181" class="card-title blue">Server</text>
+  <text x="862" y="181" class="code" font-weight="700">rabbitmq-amqp</text>
+  <text x="1000" y="181" class="note">namespace rabbitmq</text>
+  <text x="1540" y="181" text-anchor="end" class="tag blue">WHAT IS PROTECTED</text>
+  <text x="790" y="209" class="code">podSelector: { app.kubernetes.io/name: rabbitmq }</text>
+  <circle cx="1220" cy="204" r="6" fill="#0969da"/>
+  <text x="1240" y="209" class="note">← workload key</text>
+  <text x="790" y="231" class="code">port: 5672      proxyProtocol: opaque</text>
+  <circle cx="1130" cy="226" r="6" fill="#0969da"/>
+  <text x="1150" y="231" class="note">← the port entry</text>
+  <text x="790" y="256" class="code" font-weight="700">accessPolicy: deny</text>
+  <text x="960" y="256" class="note">→ nobody gets in unless an AuthorizationPolicy says so (always set)</text>
+
+  <!-- MeshTLSAuthentication card -->
+  <rect x="774" y="292" width="782" height="130" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="2"/>
+  <text x="790" y="317" class="card-title green">MeshTLSAuthentication</text>
+  <text x="1010" y="317" class="code" font-weight="700">rabbitmq-amqp</text>
+  <text x="1540" y="317" text-anchor="end" class="tag green">WHO MAY COME IN</text>
+  <text x="790" y="345" class="code">identityRefs:</text>
+  <text x="790" y="367" class="code">  - kind: Namespace       name: rabbitmq</text>
+  <circle cx="1130" cy="362" r="6" fill="#1a7f37"/>
+  <text x="1150" y="367" class="note">← allowSameNamespace: true</text>
+  <text x="790" y="389" class="code">  - kind: ServiceAccount  name: demo-api   namespace: demo</text>
+  <circle cx="1270" cy="384" r="6" fill="#1a7f37"/>
+  <text x="1290" y="389" class="note">← publish + connectsTo</text>
+  <text x="790" y="412" class="note">Only rendered when someone is allowed. Every other caller is still denied by the Server.</text>
+
+  <!-- AuthorizationPolicy card -->
+  <rect x="774" y="440" width="782" height="114" rx="8" fill="#fff1e5" stroke="#bc4c00" stroke-width="2"/>
+  <text x="790" y="465" class="card-title orange">AuthorizationPolicy</text>
+  <text x="980" y="465" class="code" font-weight="700">rabbitmq-amqp</text>
+  <text x="1540" y="465" text-anchor="end" class="tag orange">THE LINK</text>
+  <text x="790" y="493" class="code">targetRef:                  kind: Server                 name: rabbitmq-amqp</text>
+  <text x="790" y="515" class="code">requiredAuthenticationRefs: kind: MeshTLSAuthentication  name: rabbitmq-amqp</text>
+  <text x="790" y="541" class="note">"Traffic to this Server must carry one of these identities." All three share the name &lt;workload&gt;-&lt;port&gt;.</text>
+
+  <!-- ================= Panel 2: relationship ================= -->
+  <rect x="24" y="592" width="1552" height="300" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="44" y="624" class="h2">2. How the three fit together</text>
+
+  <rect x="640" y="646" width="320" height="70" rx="8" fill="#fff1e5" stroke="#bc4c00" stroke-width="2"/>
+  <text x="800" y="676" text-anchor="middle" class="card-title orange">AuthorizationPolicy</text>
+  <text x="800" y="700" text-anchor="middle" class="note">rule: "to reach THAT, you must be one of THESE"</text>
+
+  <path class="line" d="M 700 716 L 470 790"/>
+  <text x="520" y="740" text-anchor="middle" class="code" font-weight="700">targetRef</text>
+  <text x="520" y="758" text-anchor="middle" class="note">what</text>
+  <path class="line" d="M 900 716 L 1130 790"/>
+  <text x="1080" y="740" text-anchor="middle" class="code" font-weight="700">requiredAuthenticationRefs</text>
+  <text x="1080" y="758" text-anchor="middle" class="note">who</text>
+
+  <rect x="240" y="792" width="380" height="76" rx="8" fill="#ddf4ff" stroke="#0969da" stroke-width="2"/>
+  <text x="430" y="820" text-anchor="middle" class="card-title blue">Server</text>
+  <text x="430" y="842" text-anchor="middle" class="note">a set of pods + one port, deny by default</text>
+  <text x="430" y="860" text-anchor="middle" class="note">(one per declared port, even private ones)</text>
+
+  <rect x="980" y="792" width="400" height="76" rx="8" fill="#dafbe1" stroke="#1a7f37" stroke-width="2"/>
+  <text x="1180" y="820" text-anchor="middle" class="card-title green">MeshTLSAuthentication</text>
+  <text x="1180" y="842" text-anchor="middle" class="note">a set of mTLS identities:</text>
+  <text x="1180" y="860" text-anchor="middle" class="note">ServiceAccounts and/or a whole Namespace</text>
+
+  <text x="44" y="672" class="note">Server without AuthorizationPolicy</text>
+  <text x="44" y="692" class="note">= port declared, nobody allowed</text>
+  <text x="44" y="712" class="note">(e.g. redis until someone connectsTo it,</text>
+  <text x="44" y="732" class="note">or rabbitmq management: never published).</text>
+
+  <text x="1556" y="672" text-anchor="end" class="note">Identities come from Linkerd mTLS, not from</text>
+  <text x="1556" y="692" text-anchor="end" class="note">IPs or labels: a caller IS its ServiceAccount.</text>
+  <text x="1556" y="712" text-anchor="end" class="note">Two workloads that need different permissions</text>
+  <text x="1556" y="732" text-anchor="end" class="note">need two ServiceAccounts.</text>
+
+  <!-- ================= Panel 3: runtime decision ================= -->
+  <rect x="24" y="910" width="1552" height="626" rx="10" fill="#f6f8fa" stroke="#d0d7de"/>
+  <text x="44" y="942" class="h2">3. What the Linkerd proxy inside the RabbitMQ pod decides for every incoming connection</text>
+
+  <!-- start -->
+  <rect x="580" y="962" width="480" height="56" rx="28" fill="#ffffff" stroke="#57606a" stroke-width="2"/>
+  <text x="820" y="986" text-anchor="middle" font-weight="600">A meshed pod connects to rabbitmq :5672</text>
+  <text x="820" y="1006" text-anchor="middle" class="note">caller proxy → mTLS → RabbitMQ proxy (identity = caller's ServiceAccount)</text>
+  <path class="line" d="M 820 1018 L 820 1046"/>
+
+  <!-- diamond 1 -->
+  <polygon class="diamond" points="820,1046 1060,1100 820,1154 580,1100"/>
+  <text x="820" y="1094" text-anchor="middle" font-weight="600">Is there a Server selecting</text>
+  <text x="820" y="1114" text-anchor="middle" font-weight="600">this pod and this port?</text>
+  <text x="1075" y="1092" class="note" font-weight="700">no</text>
+  <path class="line-red" d="M 1060 1100 L 1140 1100"/>
+  <rect class="reject" x="1144" y="1068" width="400" height="64" rx="8"/>
+  <text x="1160" y="1092" font-weight="700" fill="#cf222e">REJECTED — port not declared</text>
+  <text x="1160" y="1112" class="note">namespace default applies: default-inbound-policy: deny</text>
+  <text x="832" y="1176" class="note" font-weight="700">yes</text>
+  <path class="line" d="M 820 1154 L 820 1188"/>
+
+  <!-- diamond 2 -->
+  <polygon class="diamond" points="820,1188 1060,1242 820,1296 580,1242"/>
+  <text x="820" y="1236" text-anchor="middle" font-weight="600">Does an AuthorizationPolicy</text>
+  <text x="820" y="1256" text-anchor="middle" font-weight="600">target that Server?</text>
+  <text x="1075" y="1234" class="note" font-weight="700">no</text>
+  <path class="line-red" d="M 1060 1242 L 1140 1242"/>
+  <rect class="reject" x="1144" y="1210" width="400" height="64" rx="8"/>
+  <text x="1160" y="1234" font-weight="700" fill="#cf222e">REJECTED — nobody is allowed in</text>
+  <text x="1160" y="1254" class="note">Server accessPolicy: deny — declared, nobody requested it</text>
+  <text x="832" y="1318" class="note" font-weight="700">yes</text>
+  <path class="line" d="M 820 1296 L 820 1330"/>
+
+  <!-- diamond 3 -->
+  <polygon class="diamond" points="820,1330 1060,1384 820,1438 580,1384"/>
+  <text x="820" y="1378" text-anchor="middle" font-weight="600">Is the caller's identity listed in</text>
+  <text x="820" y="1398" text-anchor="middle" font-weight="600">the MeshTLSAuthentication?</text>
+  <text x="1075" y="1376" class="note" font-weight="700">no</text>
+  <path class="line-red" d="M 1060 1384 L 1140 1384"/>
+  <rect class="reject" x="1144" y="1352" width="400" height="64" rx="8"/>
+  <text x="1160" y="1376" font-weight="700" fill="#cf222e">REJECTED — wrong identity</text>
+  <text x="1160" y="1396" class="note">e.g. demo-ui, project-a, an unmeshed pod (no mTLS identity)</text>
+  <text x="832" y="1460" class="note" font-weight="700">yes</text>
+  <path class="line-green" d="M 820 1438 L 820 1472"/>
+
+  <!-- allow -->
+  <rect class="allow" x="580" y="1474" width="480" height="50" rx="25"/>
+  <text x="820" y="1496" text-anchor="middle" font-weight="700" fill="#1a7f37">ALLOWED — connection reaches RabbitMQ</text>
+  <text x="820" y="1514" text-anchor="middle" class="note">RabbitMQ still checks its own username / password as usual</text>
+
+  <!-- examples table (left) -->
+  <rect x="44" y="962" width="500" height="562" rx="8" fill="#ffffff" stroke="#d0d7de"/>
+  <text x="60" y="990" font-weight="700">Who reaches rabbitmq :5672 with the catalog above?</text>
+  <line x1="60" y1="1002" x2="528" y2="1002" stroke="#d0d7de"/>
+
+  <text x="60" y="1030" class="code">demo / demo-api</text>
+  <text x="300" y="1030" font-weight="700" fill="#1a7f37">✓ allowed</text>
+  <text x="60" y="1050" class="note">ServiceAccount listed: publish + connectsTo</text>
+
+  <text x="60" y="1084" class="code">demo / demo-ui</text>
+  <text x="300" y="1084" font-weight="700" fill="#cf222e">✗ rejected</text>
+  <text x="60" y="1104" class="note">no connectsTo — the UI never inherits the API's access</text>
+
+  <text x="60" y="1138" class="code">rabbitmq / any pod</text>
+  <text x="300" y="1138" font-weight="700" fill="#1a7f37">✓ allowed</text>
+  <text x="60" y="1158" class="note">Namespace identity: allowSameNamespace: true</text>
+
+  <text x="60" y="1192" class="code">demo-preview-123 / demo-api</text>
+  <text x="300" y="1192" font-weight="700" fill="#1a7f37">✓ allowed</text>
+  <text x="60" y="1212" class="note">only because its own file also says connectsTo</text>
+
+  <text x="60" y="1246" class="code">project-a / orders-api</text>
+  <text x="300" y="1246" font-weight="700" fill="#cf222e">✗ rejected</text>
+  <text x="60" y="1266" class="note">not in the list</text>
+
+  <text x="60" y="1300" class="code">a pod without a proxy</text>
+  <text x="300" y="1300" font-weight="700" fill="#cf222e">✗ rejected</text>
+  <text x="60" y="1320" class="note">no mTLS identity at all</text>
+
+  <line x1="60" y1="1344" x2="528" y2="1344" stroke="#d0d7de"/>
+  <text x="60" y="1372" font-weight="700">…and rabbitmq :15672 (management)?</text>
+  <text x="60" y="1398" class="code">rabbitmq / any pod</text>
+  <text x="300" y="1398" font-weight="700" fill="#1a7f37">✓ allowed</text>
+  <text x="60" y="1418" class="note">Namespace identity, same as above</text>
+  <text x="60" y="1452" class="code">everyone else</text>
+  <text x="300" y="1452" font-weight="700" fill="#cf222e">✗ rejected</text>
+  <text x="60" y="1472" class="note">not in publish → other namespaces cannot even ask for it</text>
+
+  <text x="60" y="1508" class="note" font-style="italic">Remove a connectsTo line → that ServiceAccount disappears from the</text>
+  <text x="60" y="1526" class="note" font-style="italic">MeshTLSAuthentication on the next sync → its next connection is rejected.</text>
+</svg>

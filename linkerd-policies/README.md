@@ -39,6 +39,8 @@ fails the render with the offending path when:
 
 ## Output: what one port becomes
 
+![Server, MeshTLSAuthentication and AuthorizationPolicy explained](../docs/linkerd-policy-resources.png)
+
 For every port, in the target's namespace, all named `<workload>-<port name>`:
 
 | Resource | Purpose |

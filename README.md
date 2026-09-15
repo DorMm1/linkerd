@@ -13,6 +13,7 @@ chart and do not need to know how the mesh works.
 | [argocd/](argocd/) | The multi-source Argo CD `Application`: this chart + the catalog as values. |
 | [tests/](tests/) | Python tests: chart behaviour, input validation, catalog conventions. |
 | [test.yaml](test.yaml) | The example catalog rendered through the chart; a PR diff shows exactly which policies change. |
+| [docs/](docs/) | [One-page diagram](docs/linkerd-policy-resources.png) of the three Linkerd resources and how the proxy decides (SVG source next to it). |
 
 ## How it fits together
 
